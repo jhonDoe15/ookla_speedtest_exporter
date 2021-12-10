@@ -17,6 +17,7 @@ class AppMetrics:
 
         # Prometheus metrics to collect
         self.download = Gauge("current_download_speed_bits", "Current Download")
+        self.upload = Gauge("current_upload_speed_bits", "Current Upload")
         print("initiated")
 
     def run_metrics_loop(self):
@@ -38,16 +39,19 @@ class AppMetrics:
             speedtest_output = subprocess.run(
                     ["speedtest", "-f", "json"], capture_output=True)
             json_output = json.loads(speedtest_output.stdout)
-            speed_in_bits = json_output['download']['bandwidth'] * 8
+            download_speed_in_bits = json_output['download']['bandwidth'] * 8
+            upload_speed_in_bits = json_output['upload']['bandwidth'] * 8
         except Exception as e:
             print("exporter had exception:")
             print(e)
             
             # default value for if try didnt succeed
-            speed_in_bits = 0
+            download_speed_in_bits = 0
+            upload_speed_in_bits = 0
 
         # Update Prometheus metrics with fetched metrics
-        self.download.set(speed_in_bits)
+        self.download.set(download_speed_in_bits)
+        self.upload.set(upload_speed_in_bits)
 
 def main():
     """Main entry point"""
