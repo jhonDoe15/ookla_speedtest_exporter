@@ -11,3 +11,6 @@ run in background `nohup python3 main.py &`
 windows:
 `python3 main.py`
 
+
+exporter base code from https://trstringer.com/quick-and-easy-prometheus-exporter/
+
