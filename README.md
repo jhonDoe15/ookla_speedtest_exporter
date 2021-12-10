@@ -9,5 +9,5 @@ install dependencies `pip3 install -r requirements.txt`
 Linux:
 run in background `nohup python3 main.py &`
 windows:
-???
+`python3 main.py`
 
