@@ -1,0 +1,30 @@
+FROM python:alpine
+
+EXPOSE 2313
+
+ENV PYTHONUNBUFFERED=1
+
+ENV SRC_DIR /usr/bin/src/webapp/src
+
+WORKDIR ${SRC_DIR}
+
+RUN apk add wget && \
+    wget https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-linux-x86_64.tgz && \ 
+    tar -xvf ookla-speedtest-1.1.1-linux-x86_64.tgz && \
+    mv speedtest /bin/ && \
+    rm -fr ./ookla-speedtest-1.1.1-linux-x86_64* ./speedtest*
+
+# will do a speed test when ran so copied the file instead
+#RUN speedtest --accept-license
+
+RUN  mkdir -p /root/.config/ookla/
+
+COPY speedtest-cli.json /root/.config/ookla/
+
+COPY requirements.txt .
+
+RUN pip3 install -r requirements.txt
+
+COPY main.py .
+
+CMD ["python3", "main.py"]

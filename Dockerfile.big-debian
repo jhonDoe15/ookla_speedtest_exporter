@@ -13,6 +13,7 @@ RUN apt update -y && \
     curl -s https://install.speedtest.net/app/cli/install.deb.sh | bash && \ 
     apt install speedtest
 
+# will do a speed test when ran so copied the file instead
 #RUN speedtest --accept-license
 
 RUN  mkdir -p /root/.config/ookla/
