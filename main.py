@@ -6,6 +6,8 @@ import time
 import json
 import subprocess
 
+PRINT_SPACING = "################################"
+
 class AppMetrics:
     """
     Representation of Prometheus metrics and loop to fetch and transform
@@ -43,7 +45,16 @@ class AppMetrics:
             upload_speed_in_bits = json_output['upload']['bandwidth'] * 8
         except Exception as e:
             print("exporter had exception:")
-            print(e)
+            print()
+            print(type(e))
+            print(PRINT_SPACING)
+            print(e.args)
+            print(PRINT_SPACING)
+            print(e.with_traceback)
+            print(PRINT_SPACING)
+            print(e.__traceback__)
+            
+            traceback.print_exc()
             
             # default value for if try didnt succeed
             download_speed_in_bits = 0
