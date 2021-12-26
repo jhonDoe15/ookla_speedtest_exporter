@@ -7,6 +7,11 @@ import json
 import subprocess
 
 PRINT_SPACING = "################################"
+SOCKET_ERROR = 'Cannot open socket'
+def retrieve_results():
+    speedtest_output = subprocess.run(
+                    ["speedtest", "-f", "json"], capture_output=True)
+    return json.loads(speedtest_output.stdout)
 
 class AppMetrics:
     """
@@ -26,10 +31,10 @@ class AppMetrics:
         """Metrics fetching loop"""
         print("running loop")
         while True:
-            self.fetch()
+            self.fetch(0)
             time.sleep(self.polling_interval_seconds)
 
-    def fetch(self):
+    def fetch(self,count):
         """
         Get metrics from application and refresh Prometheus metrics with
         new values.
@@ -39,20 +44,18 @@ class AppMetrics:
         # Fetch raw status data
         json_output = ''
         try:
-            speedtest_output = subprocess.run(
-                    ["speedtest", "-f", "json"], capture_output=True)
-            json_output = json.loads(speedtest_output.stdout)
+            json_output = retrieve_results()
             download_speed_in_bits = json_output['download']['bandwidth'] * 8
             upload_speed_in_bits = json_output['upload']['bandwidth'] * 8
         except Exception as e:
             print("exporter had exception:")
-            print(type(e))
-            print(PRINT_SPACING)
             print(json_output)
             print(PRINT_SPACING)
             print(e.args)
-            print(PRINT_SPACING)
-            print(e.__traceback__)
+            if json_output['error'] == SOCKET_ERROR and count < 5:
+                count = count + 1
+                print("trying again...")
+                self.fetch(count)
             
             # default value for if try didnt succeed
             download_speed_in_bits = 0
