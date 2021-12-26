@@ -37,6 +37,7 @@ class AppMetrics:
         print("fetching data")
 
         # Fetch raw status data
+        json_output = ''
         try:
             speedtest_output = subprocess.run(
                     ["speedtest", "-f", "json"], capture_output=True)
@@ -45,16 +46,13 @@ class AppMetrics:
             upload_speed_in_bits = json_output['upload']['bandwidth'] * 8
         except Exception as e:
             print("exporter had exception:")
-            print()
             print(type(e))
+            print(PRINT_SPACING)
+            print(json_output)
             print(PRINT_SPACING)
             print(e.args)
             print(PRINT_SPACING)
-            print(e.with_traceback)
-            print(PRINT_SPACING)
             print(e.__traceback__)
-            
-            traceback.print_exc()
             
             # default value for if try didnt succeed
             download_speed_in_bits = 0
