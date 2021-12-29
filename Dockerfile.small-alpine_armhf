@@ -1,7 +1,5 @@
 FROM python:alpine
 
-EXPOSE 2313
-
 ENV PYTHONUNBUFFERED=1
 
 ENV SRC_DIR /usr/bin/src/webapp/src
@@ -27,3 +25,7 @@ RUN pip3 install -r requirements.txt
 COPY main.py .
 
 CMD ["python3", "main.py"]
+
+HEALTHCHECK --interval=15s --timeout=5s CMD value=$(`curl -s http://localhost:2313/metrics | grep download | awk 'NR>2{print $2}' > /dev/null`);if [[ "$value" == "0" ]]; then exit 1; else exit 0; fi
+
+EXPOSE 2313
