@@ -8,8 +8,7 @@ ENV SRC_DIR /usr/bin/src/webapp/src
 
 WORKDIR ${SRC_DIR}
 
-RUN apk add wget && \
-    wget https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-linux-armhf.tgz && \ 
+RUN wget https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-linux-armhf.tgz && \ 
     tar -xvf ookla-speedtest-1.1.1-linux-armhf.tgz && \
     mv speedtest /bin/ && \
     rm -fr ./ookla-speedtest-1.1.1-linux-armhf* ./speedtest*

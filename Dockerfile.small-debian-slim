@@ -1,4 +1,4 @@
-FROM python:slim
+FROM python:slim-buster
 
 EXPOSE 2313
 
@@ -8,10 +8,11 @@ ENV SRC_DIR /usr/bin/src/webapp/src
 
 WORKDIR ${SRC_DIR}
 
-RUN apt update -y && \
-    apt install -y curl && \
+RUN apt-get clean && \
+    apt-get update -y && \
+    apt-get install -y curl && \
     curl -s https://install.speedtest.net/app/cli/install.deb.sh | bash && \ 
-    apt install -y speedtest
+    apt-get install -y speedtest
 
 # will do a speed test when ran so copied the file instead
 #RUN speedtest --accept-license
