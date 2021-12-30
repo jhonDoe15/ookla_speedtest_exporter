@@ -6,10 +6,14 @@ ENV SRC_DIR /usr/bin/src/webapp/src
 
 WORKDIR ${SRC_DIR}
 
+<<<<<<< HEAD
 RUN apk update && \
     apk upgrade curl && \
     apk upgrade wget && \
     wget https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-linux-armhf.tgz && \ 
+=======
+RUN wget https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-linux-armhf.tgz && \ 
+>>>>>>> a4ac558398e8e304aeca03a5698ca43b6c4a88ef
     tar -xvf ookla-speedtest-1.1.1-linux-armhf.tgz && \
     mv speedtest /bin/ && \
     rm -fr ./ookla-speedtest-1.1.1-linux-armhf* ./speedtest*

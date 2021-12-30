@@ -1,4 +1,4 @@
-FROM python:slim
+FROM python:slim-buster
 
 ENV PYTHONUNBUFFERED=1
 
@@ -6,7 +6,8 @@ ENV SRC_DIR /usr/bin/src/webapp/src
 
 WORKDIR ${SRC_DIR}
 
-RUN apt update -y && \
+RUN apt-get clean && \
+    apt update -y && \
     apt upgrade curl -y && \
     apt upgrade && \
     curl -s https://install.speedtest.net/app/cli/install.deb.sh | bash && \ 
