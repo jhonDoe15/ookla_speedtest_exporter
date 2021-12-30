@@ -7,8 +7,9 @@ ENV SRC_DIR /usr/bin/src/webapp/src
 WORKDIR ${SRC_DIR}
 
 RUN apk update && \
-    apk upgrade curl && \
-    apk upgrade wget && \
+    apk add curl && \
+    apk add wget && \
+    apk upgrade && \
     wget https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-linux-x86_64.tgz && \ 
     tar -xvf ookla-speedtest-1.1.1-linux-x86_64.tgz && \
     mv speedtest /bin/ && \
