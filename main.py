@@ -52,7 +52,7 @@ class AppMetrics:
             print(json_output)
             print(PRINT_SPACING)
             print(e.args)
-            if json_output['error'] == SOCKET_ERROR and count < 5:
+            if json_output.get('error') == SOCKET_ERROR and count < 5:
                 count = count + 1
                 print("trying again...")
                 self.fetch(count)
@@ -75,7 +75,7 @@ def main():
         polling_interval_seconds=polling_interval_seconds
     )
     start_http_server(exporter_port)
-    print("Listening on port %s" % exporter_port)
+    print(f"Listening on port {exporter_port}")
     app_metrics.run_metrics_loop()
 
 if __name__ == "__main__":
