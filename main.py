@@ -45,8 +45,8 @@ class AppMetrics:
         json_output = ''
         try:
             json_output = retrieve_results()
-            download_speed_in_bits = json_output['download']['bandwidth'] * 8
-            upload_speed_in_bits = json_output['upload']['bandwidth'] * 8
+            download_speed_in_bits = json_output.get("download", {}).get("bandwidth", 0) * 8
+            upload_speed_in_bits = json_output.get("upload", {}).get("bandwidth", 0) * 8
         except Exception as e:
             print("exporter had exception:")
             print(json_output)
