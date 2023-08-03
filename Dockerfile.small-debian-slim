@@ -1,4 +1,4 @@
-FROM python:slim-buster
+FROM python:3.10-slim-bookworm
 
 ENV PYTHONUNBUFFERED=1
 
@@ -10,8 +10,8 @@ RUN apt-get clean && \
     apt update -y && \
     apt upgrade curl -y && \
     apt upgrade && \
-    curl -s https://install.speedtest.net/app/cli/install.deb.sh | bash && \ 
-    apt install -y speedtest
+    curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | bash && \
+    apt-get install speedtest
 
 # will do a speed test when ran so copied the file instead
 #RUN speedtest --accept-license
@@ -28,6 +28,6 @@ COPY main.py .
 
 CMD ["python3", "main.py"]
 
-HEALTHCHECK --interval=15s --timeout=5s CMD value=$(`curl -s http://localhost:2313/metrics | grep download | awk 'NR>2{print $2}' > /dev/null`);if [[ "$value" == "0" ]]; then exit 1; else exit 0; fi
+HEALTHCHECK --interval=15s --timeout=5s CMD value=$(`curl -s http://localhost:2313/ | grep download | awk 'NR>2{print $2}' > /dev/null`);if [[ "$value" == "0" ]]; then exit 1; else exit 0; fi
 
 EXPOSE 2313
